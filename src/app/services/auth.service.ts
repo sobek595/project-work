@@ -3,6 +3,7 @@ import { inject, Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { catchError, distinctUntilChanged, map, of, ReplaySubject, tap } from 'rxjs';
 import { ContoCorrente } from '../entities/ControCorrente';
+import { JwtService } from './jwt.service';
 
 @Injectable({
   providedIn: 'root'
@@ -11,6 +12,7 @@ export class AuthService {
 
   protected http = inject(HttpClient);
   protected router = inject(Router);
+  protected jwtSrv = inject(JwtService);
 
   protected _currentUser$ = new ReplaySubject<ContoCorrente | null>(1);
   currentUser$ = this._currentUser$.asObservable();
@@ -40,6 +42,7 @@ export class AuthService {
     
     return this.http.post<any>('/api/login', {email, password})
       .pipe(
+        tap(res => this.jwtSrv.setToken(res.token)),
         tap(res => this._currentUser$.next(res.user)),
         map(res => res.user)
       );
@@ -52,6 +55,7 @@ export class AuthService {
     register(firstName: string, lastName: string, email: string, password: string) {
       return this.http.post<any>('/api/register', { firstName, lastName, email, password })
         .pipe(
+          tap(res => this.jwtSrv.setToken(res.token)),
           tap(res => this._currentUser$.next(res.user)),
           map(res => res.user)
         );
