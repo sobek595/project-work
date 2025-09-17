@@ -1,0 +1,10 @@
+<div *ngIf="user">
+  <p><strong>Nome:</strong> {{ user.nomeTitolare }}</p>
+  <p><strong>Cognome:</strong> {{ user.cognomeTitolare }}</p>
+  <p><strong>Email:</strong> {{ user.email }}</p>
+  <p><strong>IBAN:</strong> {{ user.IBAN }}</p>
+  <p><strong>Data Apertura:</strong> {{ user.dataApertura }}</p>
+</div>
+<div *ngIf="!user">
+  <p>Caricamento profilo...</p>
+</div>
