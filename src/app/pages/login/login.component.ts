@@ -2,7 +2,7 @@ import { Component, inject, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { AuthService } from '../../services/auth.service';
 import { ActivatedRoute, Router } from '@angular/router';
-import { catchError, map, of, Subject, takeUntil, throwError } from 'rxjs';
+import { catchError, debounceTime, map, of, Subject, takeUntil, throwError } from 'rxjs';
 
 @Component({
   selector: 'app-login',
@@ -30,6 +30,13 @@ export class LoginComponent {
       .subscribe(_ => {
         this.loginError = '';
       });
+
+    this.loginForm.valueChanges
+      .pipe(debounceTime(30000))
+      .subscribe(() => {
+        this.loginForm.reset();
+        this.loginError = 'Si è impiegato troppo tempo per effettuare il login, si prega di riprovare.';
+      })
   }
 
    ngOnDestroy(): void {
