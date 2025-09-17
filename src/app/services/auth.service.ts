@@ -52,8 +52,8 @@ export class AuthService {
     this._currentUser$.next(null);
   }
 
-    register(firstName: string, lastName: string, email: string, password: string) {
-      return this.http.post<any>('/api/register', { firstName, lastName, email, password })
+    register(nomeTitolare: string, cognomeTitolare: string, email: string, password: string) {
+      return this.http.post<any>('/api/register', { nomeTitolare, cognomeTitolare, email, password })
         .pipe(
           tap(res => this.jwtSrv.setToken(res.token)),
           tap(res => this._currentUser$.next(res.user)),

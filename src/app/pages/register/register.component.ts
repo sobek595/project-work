@@ -20,9 +20,9 @@ export class RegisterComponent implements OnInit, OnDestroy {
   protected destroyed$ = new Subject<void>();
 
   registerForm = this.fb.group({
-    name: ['', Validators.required],
-    surname: ['', Validators.required],
-    username: ['', [Validators.required, Validators.email]],
+    nomeTitolare: ['', Validators.required],
+    cognomeTitolare: ['', Validators.required],
+    email: ['', [Validators.required, Validators.email]],
     password: ['', Validators.required],
   });
 
@@ -42,9 +42,9 @@ export class RegisterComponent implements OnInit, OnDestroy {
   }
 
   register() {
-    const { name, surname, username, password } = this.registerForm.value;
+    const { nomeTitolare, cognomeTitolare, email, password } = this.registerForm.value;
 
-    this.authSrv.register(name!, surname!, username!, password!)
+    this.authSrv.register(nomeTitolare!, cognomeTitolare!, email!, password!)
       .pipe(
         catchError(response => {
           this.registerError = response.error.message;
