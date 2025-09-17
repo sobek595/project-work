@@ -22,7 +22,6 @@ export class RegisterComponent implements OnInit, OnDestroy {
     surname: ['', Validators.required],
     username: ['', [Validators.required, Validators.email]],
     password: ['', Validators.required],
-    confirmPassword: ['', Validators.required]
   });
 
   registerError = '';
@@ -41,12 +40,7 @@ export class RegisterComponent implements OnInit, OnDestroy {
   }
 
   register() {
-    const { name, surname, username, password, confirmPassword } = this.registerForm.value;
-
-    if (password !== confirmPassword) {
-      this.registerError = 'Le password non coincidono';
-      return;
-    }
+    const { name, surname, username, password } = this.registerForm.value;
 
     this.authSrv.register(name!, surname!, username!, password!)
       .pipe(
@@ -56,7 +50,7 @@ export class RegisterComponent implements OnInit, OnDestroy {
         })
       )
       .subscribe(() => {
-        this.router.navigate(['/products']); 
+        this.router.navigate(['/login']); 
       });
    }
 }
