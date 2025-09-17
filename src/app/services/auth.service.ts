@@ -37,6 +37,7 @@ export class AuthService {
   }
 
    login(email: string, password: string) {
+    
     return this.http.post<any>('/api/login', {email, password})
       .pipe(
         tap(res => this._currentUser$.next(res.user)),
