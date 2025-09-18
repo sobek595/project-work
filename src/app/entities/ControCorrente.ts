@@ -6,4 +6,5 @@ export type ContoCorrente = {
     nomeTitolare: string;		
     dataApertura: Date;			
     IBAN: string;
+    saldo: number;
 }
