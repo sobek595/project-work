@@ -4,6 +4,10 @@
   <p><strong>Email:</strong> {{ user.email }}</p>
   <p><strong>IBAN:</strong> {{ user.IBAN }}</p>
   <p><strong>Data Apertura:</strong> {{ user.dataApertura }}</p>
+  <button type="button" class="btn btn-secondary w-100 py-2 mt-2" (click)="logout()">
+  <i class="fas fa-sign-out-alt me-2"></i>
+  Logout
+  </button>
 </div>
 <div *ngIf="!currentUser$">
   <p>Profilo non trovato</p>
