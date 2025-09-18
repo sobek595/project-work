@@ -49,6 +49,7 @@ export class AuthService {
   }
 
    logout() {
+    this.jwtSrv.removeToken();
     this._currentUser$.next(null);
   }
 

@@ -18,4 +18,9 @@ export class ProfileComponent {
     profileError = '';
 
     currentUser$ = this.authSrv.currentUser$
+
+    logout() {
+      this.authSrv.logout();
+      this.router.navigate(['/login']);
+    }
 }
