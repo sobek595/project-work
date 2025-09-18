@@ -1,4 +1,6 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
+import { FormBuilder } from '@angular/forms';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-ricarica',
@@ -7,5 +9,6 @@ import { Component } from '@angular/core';
   styleUrl: './ricarica.component.css'
 })
 export class RicaricaComponent {
-  
+  protected fb = inject(FormBuilder);
+  protected route = inject(Router);
 }
