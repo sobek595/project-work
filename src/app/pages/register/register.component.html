@@ -27,6 +27,9 @@
           <input type="password" class="form-control" formControlName="password" />
         </div>
 
+        <div class="text-danger" *ngIf="registerError">
+          {{ registerError }}
+        </div>
 
         <!-- Submit -->
         <div class="text-center">
