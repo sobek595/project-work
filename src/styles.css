@@ -1,1 +1,51 @@
 /* You can add global styles to this file, and also import other style files */
+/* Colori personalizzati */
+:root {
+  --bs-primary: #eabd8c;          /* Azzurro principale */
+  --bs-primary-rgb: 234, 189, 140;  /* Lo stesso colore in RGB */
+}
+
+/* Sovrascrivi le classi di Bootstrap */
+.bg-primary {
+  background-color: var(--bs-primary) !important;
+}
+
+.text-primary {
+  color: var(--bs-primary) !important;
+}
+
+.btn-primary {
+  background-color: var(--bs-primary) !important;
+  border-color: var(--bs-primary) !important;
+}
+
+.btn-primary:hover {
+  background-color: #d6a978 !important;  /* Versione più scura */
+  border-color: #d6a978 !important;
+}
+
+.btn-outline-primary {
+  color: var(--bs-primary) !important;
+  border-color: var(--bs-primary) !important;
+}
+
+.btn-outline-primary:hover {
+  background-color: var(--bs-primary) !important;
+  color: white !important;
+}
+
+.border-primary {
+  border-color: var(--bs-primary) !important;
+}
+
+/* Effetti hover e focus */
+.nav-link:hover,
+.nav-link:focus {
+  color: var(--bs-primary) !important;
+}
+
+/* Per i form */
+.form-control:focus {
+  border-color: var(--bs-primary) !important;
+  box-shadow: 0 0 0 0.25rem rgba(var(--bs-primary-rgb), 0.25) !important;
+}
