@@ -1,14 +1,114 @@
-<div *ngIf="currentUser$ | async as user">
-  <p><strong>Nome:</strong> {{ user.nomeTitolare }}</p>
-  <p><strong>Cognome:</strong> {{ user.cognomeTitolare }}</p>
-  <p><strong>Email:</strong> {{ user.email }}</p>
-  <p><strong>IBAN:</strong> {{ user.IBAN }}</p>
-  <p><strong>Data Apertura:</strong> {{ user.dataApertura }}</p>
-  <button type="button" class="btn btn-secondary w-100 py-2 mt-2" (click)="logout()">
-  <i class="fas fa-sign-out-alt me-2"></i>
-  Logout
-  </button>
-</div>
-<div *ngIf="!currentUser$">
-  <p>Profilo non trovato</p>
+<div class="container-fluid min-vh-100 bg-light">
+  <div class="row justify-content-center py-5">
+    <div class="col-12 col-md-8 col-lg-6">
+      <!-- Card Principale Profilo -->
+      <div class="card shadow-lg border-0 mb-4">
+        <div class="card-header text-center bg-primary text-white py-4">
+          <h4 class="mb-0">
+            <i class="fas fa-user-circle me-2"></i>
+            Profilo Utente
+          </h4>
+          <small class="text-white-50">Gestisci le tue informazioni personali</small>
+        </div>
+
+        <div class="card-body p-4">
+          <!-- Informazioni Profilo -->
+          <div *ngIf="currentUser$ | async as user">
+            <div class="text-center mb-4">
+              <div class="display-1 text-primary mb-3">
+                <i class="fas fa-user-circle"></i>
+              </div>
+              <h5 class="mb-0">{{ user.nomeTitolare }} {{ user.cognomeTitolare }}</h5>
+              <small class="text-muted">Cliente dal {{ user.dataApertura | date:'dd/MM/yyyy' }}</small>
+            </div>
+
+            <hr class="my-4">
+
+            <!-- Dettagli Personali -->
+            <div class="row g-4">
+              <!-- Email -->
+              <div class="col-12">
+                <div class="d-flex align-items-center">
+                  <span class="bg-light p-3 rounded-circle me-3">
+                    <i class="fas fa-envelope text-primary"></i>
+                  </span>
+                  <div>
+                    <small class="text-muted d-block">Indirizzo Email</small>
+                    <strong>{{ user.email }}</strong>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Nome -->
+              <div class="col-md-6">
+                <div class="d-flex align-items-center">
+                  <span class="bg-light p-3 rounded-circle me-3">
+                    <i class="fas fa-user text-primary"></i>
+                  </span>
+                  <div>
+                    <small class="text-muted d-block">Nome</small>
+                    <strong>{{ user.nomeTitolare }}</strong>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Cognome -->
+              <div class="col-md-6">
+                <div class="d-flex align-items-center">
+                  <span class="bg-light p-3 rounded-circle me-3">
+                    <i class="fas fa-user text-primary"></i>
+                  </span>
+                  <div>
+                    <small class="text-muted d-block">Cognome</small>
+                    <strong>{{ user.cognomeTitolare }}</strong>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Numero Conto -->
+              <div class="col-md-6">
+                <div class="d-flex align-items-center">
+                  <span class="bg-light p-3 rounded-circle me-3">
+                    <i class="fas fa-credit-card text-primary"></i>
+                  </span>
+                  <div>
+                    <small class="text-muted d-block">Numero Conto</small>
+                    <strong>{{ user.IBAN }}</strong>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Saldo -->
+              <div class="col-md-6">
+                <div class="d-flex align-items-center">
+                  <span class="bg-light p-3 rounded-circle me-3">
+                    <i class="fas fa-wallet text-primary"></i>
+                  </span>
+                  <div>
+                    <small class="text-muted d-block">Saldo Disponibile</small>
+                    <strong>€ {{ user.IBAN| number:'1.2-2' }}</strong>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <hr class="my-4">
+
+            <!-- Azioni -->
+            <div class="d-grid gap-2">
+              <button class="btn btn-outline-primary" type="button">
+                <i class="fas fa-key me-2"></i>
+                Modifica Password
+              </button>
+              <button class="btn btn-outline-danger" type="button" (click)="logout()">
+                <i class="fas fa-sign-out-alt me-2"></i>
+                Logout
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
 </div>

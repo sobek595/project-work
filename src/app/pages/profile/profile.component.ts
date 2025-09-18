@@ -21,5 +21,6 @@ export class ProfileComponent {
 
     logout() {
       this.authSrv.logout();
+      this.router.navigate(['/login']);
     }
 }

@@ -16,17 +16,14 @@ const routes: Routes = [
     component: LoginComponent
   },
   {
-    path: 'profile',
-    component: ProfileComponent
-  },
-  {
     path: 'homepage',
     component: HomepageComponent,
     canActivate: [authGuard]
   },
   {
     path: 'profile',
-    component: ProfileComponent
+    component: ProfileComponent,
+    canActivate: [authGuard]
   },
   {
     path: '',
