@@ -17,22 +17,5 @@ export class ProfileComponent {
 
     profileError = '';
 
-    user: ContoCorrente | null = null;
-
-  ngOnInit() {
-      this.authSrv.fetchUser().subscribe(user => {
-        this.user = user;
-      });
-  }
-
-  ngOnDestroy(): void {
-    this.destroyed$.next();
-    this.destroyed$.complete();
-  }
-
-  profile() {
-    if (!this.user) return null;
-    const { nomeTitolare, cognomeTitolare, email, IBAN, dataApertura } = this.user;
-    return { nomeTitolare, cognomeTitolare, email, IBAN, dataApertura };
-  }
+    currentUser$ = this.authSrv.currentUser$
 }
