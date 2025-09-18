@@ -10,6 +10,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { authInterceptor } from './services/auth.interceptor';
 import { ProfileComponent } from './pages/profile/profile.component';
 import { HomepageComponent } from './pages/homepage/homepage.component';
+import { MenuComponent } from './components/menu/menu.component';
 import { RicaricaComponent } from './pages/ricarica/ricarica.component';
 
 @NgModule({
@@ -19,6 +20,7 @@ import { RicaricaComponent } from './pages/ricarica/ricarica.component';
     LoginComponent,
     ProfileComponent,
     HomepageComponent,
+    MenuComponent,
     RicaricaComponent
   ],
   imports: [
