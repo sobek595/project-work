@@ -1,43 +1,124 @@
-<div class="container mt-5">
-  <div class="row">
-    <div class="col col-lg-4"></div>
-    <div class="col col-lg-4 col-md-12 border rounded p-4">
-      <form (ngSubmit)="register()" [formGroup]="registerForm">
-        <!-- Nome -->
-        <div class="form-outline mb-4">
-          <label class="form-label">Nome</label>
-          <input type="text" class="form-control" formControlName="nomeTitolare" />
+<div class="container-fluid min-vh-100 bg-light">
+  <div class="row justify-content-center align-items-center min-vh-100">
+    <div class="col-12 col-md-8 col-lg-4">
+      <div class="card shadow-lg border-0">
+        <!-- Header con logo/nome banca -->
+        <div class="card-header text-center bg-primary text-white py-4">
+          <h4 class="mb-0">
+            <i class="fas fa-university me-2"></i>
+            Digital Banking
+          </h4>
+          <small class="text-white-50">Crea il tuo account</small>
         </div>
 
-        <!-- Cognome -->
-        <div class="form-outline mb-4">
-          <label class="form-label">Cognome</label>
-          <input type="text" class="form-control" formControlName="cognomeTitolare" />
-        </div>
+        <div class="card-body p-4">
+          <form [formGroup]="registerForm" (ngSubmit)="register()">
+            <!-- Nome input -->
+            <div class="form-group mb-4">
+              <label class="form-label text-muted">Nome</label>
+              <div class="input-group">
+                <span class="input-group-text bg-light">
+                  <i class="fas fa-user"></i>
+                </span>
+                <input 
+                  type="text" 
+                  class="form-control" 
+                  formControlName="nomeTitolare"
+                  [class.is-invalid]="registerForm.get('nome')?.invalid && registerForm.get('nome')?.touched"
+                  placeholder="Inserisci il tuo nome"
+                />
+              </div>
+              <div class="invalid-feedback" *ngIf="registerForm.get('nome')?.invalid && registerForm.get('nome')?.touched">
+                Nome obbligatorio
+              </div>
+            </div>
 
-        <!-- Email -->
-        <div class="form-outline mb-4">
-          <label class="form-label">Email address</label>
-          <input type="email" class="form-control" formControlName="email" />
-        </div>
+            <!-- Cognome input -->
+            <div class="form-group mb-4">
+              <label class="form-label text-muted">Cognome</label>
+              <div class="input-group">
+                <span class="input-group-text bg-light">
+                  <i class="fas fa-user"></i>
+                </span>
+                <input 
+                  type="text" 
+                  class="form-control" 
+                  formControlName="cognomeTitolare"
+                  [class.is-invalid]="registerForm.get('cognome')?.invalid && registerForm.get('cognome')?.touched"
+                  placeholder="Inserisci il tuo cognome"
+                />
+              </div>
+              <div class="invalid-feedback" *ngIf="registerForm.get('cognome')?.invalid && registerForm.get('cognome')?.touched">
+                Cognome obbligatorio
+              </div>
+            </div>
 
-        <!-- Password -->
-        <div class="form-outline mb-4">
-          <label class="form-label">Password</label>
-          <input type="password" class="form-control" formControlName="password" />
-        </div>
+            <!-- Email input -->
+            <div class="form-group mb-4">
+              <label class="form-label text-muted">Indirizzo Email</label>
+              <div class="input-group">
+                <span class="input-group-text bg-light">
+                  <i class="fas fa-envelope"></i>
+                </span>
+                <input 
+                  type="email" 
+                  class="form-control" 
+                  formControlName="email"
+                  [class.is-invalid]="registerForm.get('email')?.invalid && registerForm.get('email')?.touched"
+                  placeholder="nome@esempio.com"
+                />
+              </div>
+              <div class="invalid-feedback" *ngIf="registerForm.get('email')?.invalid && registerForm.get('email')?.touched">
+                <span *ngIf="registerForm.get('email')?.errors?.['required']">Email obbligatoria</span>
+                <span *ngIf="registerForm.get('email')?.errors?.['email']">Formato email non valido</span>
+              </div>
+            </div>
 
-        <div class="text-danger" *ngIf="registerError">
-          {{ registerError }}
-        </div>
+            <!-- Password input -->
+            <div class="form-group mb-4">
+              <label class="form-label text-muted">Password</label>
+              <div class="input-group">
+                <span class="input-group-text bg-light">
+                  <i class="fas fa-lock"></i>
+                </span>
+                <input 
+                  type="password" 
+                  class="form-control"
+                  formControlName="password"
+                  [class.is-invalid]="registerForm.get('password')?.invalid && registerForm.get('password')?.touched"
+                  placeholder="Crea una password sicura"
+                />
+              </div>
+              <div class="invalid-feedback" *ngIf="registerForm.get('password')?.invalid && registerForm.get('password')?.touched">
+                Password obbligatoria
+              </div>
+            </div>
 
-        <!-- Submit -->
-        <div class="text-center">
-          <button type="submit" class="btn btn-primary btn-block mb-4">
-            Register
-          </button>
+            <!-- Error message -->
+            <div class="alert alert-danger" *ngIf="registerError">
+              {{ registerError }}
+            </div>
+
+            <!-- Submit button -->
+            <button 
+              type="submit" 
+              class="btn btn-primary w-100 py-2 mb-3"
+              [disabled]="registerForm.invalid">
+              <i class="fas fa-user-plus me-2"></i>
+              Registrati
+            </button>
+
+            <!-- Links utili -->
+            <div class="text-center">
+              <small class="text-muted">
+                Hai già un account? 
+                <a routerLink="/login" class="text-primary text-decoration-none">Accedi</a>
+              </small>
+            </div>
+          </form>
         </div>
-      </form>
+      </div>
+
     </div>
   </div>
 </div>
