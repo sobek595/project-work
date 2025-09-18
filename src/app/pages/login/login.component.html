@@ -1,29 +1,84 @@
-<div class="container mt-5">
-  <div class="row">
-    <div class="col col-lg-4"></div>
-    <div class="col col-lg-4 col-md-12 border rounded p-4">
-      <form (ngSubmit)="login()" [formGroup]="loginForm">
-        <!-- Email input -->
-        <div class="form-outline mb-4">
-          <label class="form-label">Email address</label>
-          <input [class.is-invalid]="loginForm.get('email')?.invalid && loginForm.get('email')?.touched" type="email" class="form-control" formControlName="email" />
-          
+<div class="container-fluid min-vh-100 bg-light">
+  <div class="row justify-content-center align-items-center min-vh-100">
+    <div class="col-12 col-md-8 col-lg-4">
+      <div class="card shadow-lg border-0">
+        <!-- Header con logo/nome banca -->
+        <div class="card-header text-center bg-primary text-white py-4">
+          <h4 class="mb-0">
+            <i class="fas fa-university me-2"></i>
+            Digital Banking
+          </h4>
+          <small class="text-white-50">Accedi al tuo conto</small>
         </div>
 
-        <!-- Password input -->
-        <div class="form-outline mb-4">
-          <label class="form-label">Password</label>
-          <input type="password" class="form-control" formControlName="password" />
-        </div>
-        <div class="text-danger" *ngIf="loginError">
-          {{ loginError }}
-        </div>
+        <div class="card-body p-4">
+          <form (ngSubmit)="login()" [formGroup]="loginForm">
+            <!-- Email input -->
+            <div class="form-group mb-4">
+              <label class="form-label text-muted">Indirizzo Email</label>
+              <div class="input-group">
+                <span class="input-group-text bg-light">
+                  <i class="fas fa-envelope"></i>
+                </span>
+                <input 
+                  type="email" 
+                  class="form-control" 
+                  formControlName="email"
+                  [class.is-invalid]="loginForm.get('email')?.invalid && loginForm.get('email')?.touched"
+                  placeholder="nome@esempio.com"
+                />
+              </div>
+              <div class="invalid-feedback" *ngIf="loginForm.get('email')?.invalid && loginForm.get('email')?.touched">
+                <span *ngIf="loginForm.get('email')?.errors?.['required']">Email obbligatoria</span>
+                <span *ngIf="loginForm.get('email')?.errors?.['email']">Formato email non valido</span>
+              </div>
+            </div>
 
-        <!-- Submit button -->
-        <div class="text-center">
-          <button type="submit" class="btn btn-primary btn-block mb-4">Sign in</button>
+            <!-- Password input -->
+            <div class="form-group mb-4">
+              <label class="form-label text-muted">Password</label>
+              <div class="input-group">
+                <span class="input-group-text bg-light">
+                  <i class="fas fa-lock"></i>
+                </span>
+                <input 
+                  type="password" 
+                  class="form-control"
+                  formControlName="password"
+                  [class.is-invalid]="loginForm.get('password')?.invalid && loginForm.get('password')?.touched"
+                  placeholder="Inserisci la tua password"
+                />
+              </div>
+              <div class="invalid-feedback" *ngIf="loginForm.get('password')?.invalid && loginForm.get('password')?.touched">
+                Password obbligatoria
+              </div>
+            </div>
+
+            <!-- Error message -->
+            <div class="alert alert-danger" *ngIf="loginError">
+              {{ loginError }}
+            </div>
+
+            <!-- Submit button -->
+            <button 
+              type="submit" 
+              class="btn btn-primary w-100 py-2 mb-3"
+              [disabled]="loginForm.invalid">
+              <i class="fas fa-sign-in-alt me-2"></i>
+              Accedi
+            </button>
+
+            <!-- Links utili -->
+            <div class="text-center">
+              <small class="text-muted">
+                Non hai un account? 
+                <a href="/register" class="text-primary text-decoration-none">Registrati</a>
+              </small>
+            </div>
+          </form>
         </div>
-      </form>
+      </div>
+
     </div>
   </div>
 </div>
