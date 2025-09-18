@@ -1,0 +1,10 @@
+<div *ngIf="currentUser$ | async as user">
+  <p><strong>Nome:</strong> {{ user.nomeTitolare }}</p>
+  <p><strong>Cognome:</strong> {{ user.cognomeTitolare }}</p>
+  <p><strong>Email:</strong> {{ user.email }}</p>
+  <p><strong>IBAN:</strong> {{ user.IBAN }}</p>
+  <p><strong>Data Apertura:</strong> {{ user.dataApertura }}</p>
+</div>
+<div *ngIf="!currentUser$">
+  <p>Caricamento profilo...</p>
+</div>
