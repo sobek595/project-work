@@ -5,6 +5,6 @@ export type Movimento = {
     contoCorrente: ContoCorrente | null;
     data: Date | null;
     saldo: number | null;
-    categoriaMovimentoID: number | null;
+    categoriaMovimento: string | null;
     descrizioneEstesa: string | null;
 }
