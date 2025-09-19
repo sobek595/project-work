@@ -5,7 +5,7 @@ import { Movimento } from '../entities/Movimento';
 import { AuthService } from './auth.service';
 
 export type NumberFilter = {
-  num?: number | null
+  quantita?: number | null
 }
 
 
@@ -28,6 +28,6 @@ export class MovService {
 
   addMovRicaricaTelefonica(importo: number, descrizioneEstesa: string, categoriaMovimento: string) {
     categoriaMovimento = "1";
-    return this.http.post<any>('/api/mov/AddMov', { importo, descrizioneEstesa, categoriaMovimento  });
+    return this.http.post<any>('/api/mov/AddMov', { importo, descrizioneEstesa, categoriaMovimento });
   }
 }
