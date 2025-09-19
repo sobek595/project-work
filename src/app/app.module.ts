@@ -12,6 +12,7 @@ import { ProfileComponent } from './pages/profile/profile.component';
 import { HomepageComponent } from './pages/homepage/homepage.component';
 import { MenuComponent } from './components/menu/menu.component';
 import { RicaricaComponent } from './pages/ricarica/ricarica.component';
+import { BonificoComponent } from './pages/bonifico/bonifico.component';
 
 @NgModule({
   declarations: [
@@ -21,7 +22,8 @@ import { RicaricaComponent } from './pages/ricarica/ricarica.component';
     ProfileComponent,
     HomepageComponent,
     MenuComponent,
-    RicaricaComponent
+    RicaricaComponent,
+    BonificoComponent
   ],
   imports: [
     BrowserModule,
