@@ -4,13 +4,14 @@
       <div class="card shadow">
         <div class="card-body">
           <h3 class="card-title text-center mb-4">Ricarica Telefonica</h3>
-          <form [formGroup]="ricaricaForm" (ngSubmit)="addMovRicarica(ricaricaForm.value)">
+          <form [formGroup]="ricaricaForm" (ngSubmit)="addMovRicarica()">
             <div class="mb-3">
-              <label for="#" class="form-label">Numero di telefono</label>
+              <label for="numeroTelefono" class="form-label">Numero di telefono</label>
               <input
                 type="text"
                 id="numeroTelefono"
                 class="form-control"
+                formControlName="numeroTelefono"
                 placeholder="Inserisci il numero di telefono"
                 required
               />

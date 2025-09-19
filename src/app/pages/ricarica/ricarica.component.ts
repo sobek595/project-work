@@ -3,6 +3,7 @@ import { FormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Movimento } from '../../entities/Movimento';
 import { MovService } from '../../services/mov.service';
+import { catchError, throwError } from 'rxjs';
 
 @Component({
   selector: 'app-ricarica',
@@ -15,16 +16,27 @@ export class RicaricaComponent {
   protected movSrv = inject(MovService);
   protected route = inject(Router);
 
+  movError = '';
+
   ricaricaForm = this.fb.group({
+    numeroTelefono: [''],
     importo: ['', Validators.required],
     descrizioneEstesa: ['', Validators.required],
   })
 
-  addMovRicarica(movimento: Partial<Movimento>) {
-    const { importo, descrizioneEstesa } = this.ricaricaForm.value;
-    movimento.saldo = Number(importo!);
-    movimento.descrizioneEstesa = descrizioneEstesa!;
-    movimento.categoriaMovimentoID = 1;
-    this.movSrv.addMovRicaricaTelefonica(movimento);
-  }
+addMovRicarica() {
+  const { importo, descrizioneEstesa, numeroTelefono } = this.ricaricaForm.value;
+  const categoriaMovimento = "1";
+
+  this.movSrv.addMovRicaricaTelefonica(Number(importo)!, '(' + numeroTelefono + ') '  + descrizioneEstesa!, categoriaMovimento)
+    .pipe(
+      catchError(response => {
+        this.movError = response.error.message;
+        return throwError(() => response);
+      })
+    )
+    .subscribe(() => {
+      this.route.navigate(['/homepage']);
+    });
+}
 }
