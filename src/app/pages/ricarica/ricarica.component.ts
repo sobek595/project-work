@@ -24,7 +24,7 @@ export class RicaricaComponent {
     const { importo, descrizioneEstesa } = this.ricaricaForm.value;
     movimento.saldo = Number(importo!);
     movimento.descrizioneEstesa = descrizioneEstesa!;
-    movimento.categoriaMovimento = 1;
+    movimento.categoriaMovimentoID = 1;
     this.movSrv.addMovRicaricaTelefonica(movimento);
   }
 }

@@ -27,7 +27,7 @@ export class MovService {
   }
 
   addMovRicaricaTelefonica(movimento: Partial<Movimento>) {
-    movimento.categoriaMovimento = 1;
+    movimento.categoriaMovimentoID = 1;
     return this.http.post<any>('/api/mov/AddMov', movimento);
   }
 }
