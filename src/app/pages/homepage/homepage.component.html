@@ -1,4 +1,4 @@
-<p *ngIf="currentUser$ | async as user">homepage works! {{user.nomeTitolare}} {{user.cognomeTitolare}}</p>
+<p *ngIf="currentUser$ | async as user">Benvenuto,  {{user.nomeTitolare}} {{user.cognomeTitolare}}</p>
 <p *ngIf="movList$ | async as movList">Saldo: {{movList.saldoFinale}}</p>
 
 <div *ngIf="movList$ | async as movList">

@@ -26,8 +26,8 @@ export class MovService {
     return this.http.get<any>('/api/mov/MovLast5List', { params: q});
   }
 
-  addMovRicaricaTelefonica(movimento: Movimento) {
-    movimento.categoriaMovimento = 1;
+  addMovRicaricaTelefonica(movimento: Partial<Movimento>) {
+    movimento.categoriaMovimentoID = 1;
     return this.http.post<any>('/api/mov/AddMov', movimento);
   }
 }

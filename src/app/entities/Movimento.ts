@@ -1,10 +1,10 @@
 import { ContoCorrente } from "./ControCorrente";
 
 export type Movimento = {
-    movimentoID: string;
-    contoCorrente: ContoCorrente;
-    data: Date;
-    saldo: number;
-    categoriaMovimento: number;
-    descrizioneEstesa: string;
+    movimentoID: string | null;
+    contoCorrente: ContoCorrente | null;
+    data: Date | null;
+    saldo: number | null;
+    categoriaMovimentoID: number | null;
+    descrizioneEstesa: string | null;
 }

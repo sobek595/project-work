@@ -5,6 +5,7 @@ import { RegisterComponent } from './pages/register/register.component';
 import { HomepageComponent } from './pages/homepage/homepage.component';
 import { authGuard } from './utils/auth.guard';
 import { ProfileComponent } from './pages/profile/profile.component';
+import { RicaricaComponent } from './pages/ricarica/ricarica.component';
 
 const routes: Routes = [
   {
@@ -24,6 +25,10 @@ const routes: Routes = [
     path: 'profile',
     component: ProfileComponent,
     canActivate: [authGuard]
+  },
+  {
+    path: 'ricarica',
+    component: RicaricaComponent
   },
   {
     path: '',
