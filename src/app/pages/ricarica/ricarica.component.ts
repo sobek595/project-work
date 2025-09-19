@@ -20,7 +20,7 @@ export class RicaricaComponent {
     descrizioneEstesa: ['', Validators.required],
   })
 
-  addMovRicarica(movimento: Movimento) {
+  addMovRicarica(movimento: Partial<Movimento>) {
     const { importo, descrizioneEstesa } = this.ricaricaForm.value;
     movimento.saldo = Number(importo!);
     movimento.descrizioneEstesa = descrizioneEstesa!;
