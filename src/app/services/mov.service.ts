@@ -30,4 +30,10 @@ export class MovService {
     categoriaMovimento = "1";
     return this.http.post<any>('/api/mov/AddMov', { importo, descrizioneEstesa, categoriaMovimento });
   }
+
+  addMovBonifico(importo: number, descrizioneEstesa: string, ibanDestinatario: string){
+    const categoriaMovimento = "3";
+    return this.http.post<any>('/api/mov/AddMov', {importo, descrizioneEstesa, ibanDestinatario, categoriaMovimento});
+  }
+
 }
