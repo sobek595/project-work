@@ -24,11 +24,11 @@
               <li *ngFor="let mov of movList.movimenti | slice:0:quantita" class="list-group-item d-flex justify-content-between align-items-center">
                 <span>{{mov.descrizioneEstesa}}</span>
                 <span>{{ mov.categoriaMovimento?.NomeCategoria }}</span>
-                <span [ngClass]="{'text-success': mov?.saldo! > 0, 'text-danger': mov?.saldo! < 0}"
+                <span class="text-success"
                     *ngIf ="mov?.categoriaMovimento?.tipologia === true">
                   {{mov?.saldo | currency:'EUR'}}
                 </span>
-                <span
+                <span class="text-danger"
                     *ngIf ="mov?.categoriaMovimento?.tipologia === false">
                   - {{mov?.saldo | currency:'EUR'}}
                 </span>
