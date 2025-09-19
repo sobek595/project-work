@@ -1,6 +1,6 @@
 <div class="d-flex">
   <!-- Menu laterale -->
-  <!--<app-menu *ngIf="isAuthenticated$ | async"></app-menu>-->
+  <app-menu *ngIf="isAuthenticated$ | async"></app-menu>
 
   <!-- Contenuto principale -->
   <div class="flex-grow-1" [ngClass]="{'ms-250': isAuthenticated$ | async}">
