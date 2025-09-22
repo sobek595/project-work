@@ -1,128 +1,80 @@
-import { Component, inject } from '@angular/core';
-import { omitBy } from 'lodash';
-import { Subject, Observable, map, switchMap, catchError, of, takeUntil, debounceTime } from 'rxjs';
-import { MovService, NumberFilter } from '../../services/mov.service';
-import { MovimentiResponse } from '../homepage/homepage.component';
-import { ActivatedRoute, Router } from '@angular/router';
-import { AuthService } from '../../services/auth.service';
-import { NgbDateStruct, NgbCalendar, NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { Component, inject, OnInit } from '@angular/core';
+import { NgbCalendar, NgbDate, NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { CurrencyPipe, DatePipe, NgIf, NgFor, NgClass, AsyncPipe } from '@angular/common';
+import { MovService } from '../../services/mov.service';
+import { Observable } from 'rxjs';
+
 
 @Component({
   selector: 'app-ricerca-date',
-  standalone: false,
   templateUrl: './ricerca-date.component.html',
-  styleUrl: './ricerca-date.component.css'
+  styleUrl: './ricerca-date.component.css',
+  imports: [NgbModule, 
+            CurrencyPipe,
+            DatePipe,
+            NgIf,
+            NgFor,
+            NgClass,
+            AsyncPipe
+          ],
 })
-export class RicercaDateComponent {
-  protected authSrv = inject(AuthService);
+export class RicercaDateComponent implements OnInit {
   protected movSrv = inject(MovService);
-  protected activatedRoute = inject(ActivatedRoute);
-  protected router = inject(Router);
-  protected calendar = inject(NgbCalendar);
-  protected modalService = inject(NgbModal);
+  calendar = inject(NgbCalendar);
 
-  quantita = 5;
-  dataInizio: NgbDateStruct | null = null;
-  dataFine: NgbDateStruct | null = null;
+	hoveredDate: NgbDate | null = null;
+	fromDate: NgbDate = this.calendar.getToday();
+	toDate: NgbDate | null = this.calendar.getNext(this.fromDate, 'd', 10);
+	movimenti$: Observable<any> | undefined;
 
-  protected updateQueryParams$ = new Subject<NumberFilter & { startDate?: string | null, endDate?: string | null }>();
+  formatDateStruct(date: { year: number; month: number; day: number } | null): string {
+    if (!date) return '';
+    const dd = String(date.day).padStart(2, '0');
+    const mm = String(date.month).padStart(2, '0');
+    const yyyy = date.year;
+    return `${dd}-${mm}-${yyyy}`;
+}
 
-  filters$: Observable<NumberFilter & { startDate?: string | null, endDate?: string | null }> = this.activatedRoute.queryParams.pipe(
-    map(params => ({
-      quantita: params['quantita'] ? Number(params['quantita']) : 5,
-      startDate: params['startDate'] || null,
-      endDate: params['endDate'] || null
-    }))
-  );
+	onDateSelection(date: NgbDate) {
+		if (!this.fromDate && !this.toDate) {
+			this.fromDate = date;
+		} else if (this.fromDate && !this.toDate && date.after(this.fromDate)) {
+			this.toDate = date;
+		} else {
+			this.toDate = null;
+			this.fromDate = date;
+		}
+	}
 
-  movList$: Observable<MovimentiResponse> = this.filters$.pipe(
-    switchMap(filters => {
-      // Se sono presenti le date, usa il filtro per data
-      if (filters.startDate || filters.endDate) {
-        return this.movSrv.listDateFiltered(filters.startDate || null, filters.endDate || null).pipe(
-          catchError(err => {
-            console.error(err);
-            return of<MovimentiResponse>({
-              saldoFinale: 0,
-              movimenti: []
-            });
-          })
-        );
-      } else {
-        // Altrimenti usa il filtro per quantità
-        return this.movSrv.listNumFiltered({ quantita: filters.quantita }).pipe(
-          catchError(err => {
-            console.error(err);
-            return of<MovimentiResponse>({
-              saldoFinale: 0,
-              movimenti: []
-            });
-          })
-        );
-      }
-    })
-  );
+	isHovered(date: NgbDate) {
+		return (
+			this.fromDate && !this.toDate && this.hoveredDate && date.after(this.fromDate) && date.before(this.hoveredDate)
+		);
+	}
 
-  protected destroyed$ = new Subject<void>();
+	isInside(date: NgbDate) {
+		return this.toDate && date.after(this.fromDate) && date.before(this.toDate);
+	}
 
-  ngOnInit() {
-    this.activatedRoute.queryParams
-      .pipe(takeUntil(this.destroyed$))
-      .subscribe(params => {
-        this.quantita = params['quantita'] ? Number(params['quantita']) : 5;
-        this.dataInizio = params['startDate'] ? this.parseDate(params['startDate']) : null;
-        this.dataFine = params['endDate'] ? this.parseDate(params['endDate']) : null;
-      });
+	isRange(date: NgbDate) {
+		return (
+			date.equals(this.fromDate) ||
+			(this.toDate && date.equals(this.toDate)) ||
+			this.isInside(date) ||
+			this.isHovered(date)
+		);
+	}
 
-    this.updateQueryParams$
-      .pipe(
-        takeUntil(this.destroyed$),
-        debounceTime(300),
-        map(filters => omitBy(filters, val => val === null))
-      )
-      .subscribe(filters => {
-        this.router.navigate([], {
-          queryParams: filters,
-          queryParamsHandling: 'merge',
-          replaceUrl: true
-        });
-      });
-  }
+	searchMovimenti() {
+		if (this.fromDate && this.toDate) {
+			const startDate = `${this.fromDate.year}-${this.fromDate.month}-${this.fromDate.day}`;
+			const endDate = `${this.toDate.year}-${this.toDate.month}-${this.toDate.day}`;
+			
+			this.movimenti$ = this.movSrv.listDateFiltered(startDate, endDate);
+		}
+	}
 
-  ngOnDestroy(): void {
-    this.destroyed$.next();
-    this.destroyed$.complete();
-  }
-
-  onQuantitaChange(value: number) {
-    this.updateQueryParams$.next({
-      quantita: value,
-      startDate: this.dataInizio ? this.formatDate(this.dataInizio) : null,
-      endDate: this.dataFine ? this.formatDate(this.dataFine) : null
-    });
-  }
-
-  openDateModal(content: any, type: 'inizio' | 'fine') {
-    this.modalService.open(content).result.then((result: NgbDateStruct) => {
-      if (type === 'inizio') {
-        this.dataInizio = result;
-      } else {
-        this.dataFine = result;
-      }
-      this.updateQueryParams$.next({
-        quantita: this.quantita,
-        startDate: this.dataInizio ? this.formatDate(this.dataInizio) : null,
-        endDate: this.dataFine ? this.formatDate(this.dataFine) : null
-      });
-    }, () => {});
-  }
-
-  formatDate(date: NgbDateStruct): string {
-    return `${date.year}-${('0'+date.month).slice(-2)}-${('0'+date.day).slice(-2)}`;
-  }
-
-  parseDate(dateStr: string): NgbDateStruct {
-    const [year, month, day] = dateStr.split('-').map(Number);
-    return { year, month, day };
-  }
+	ngOnInit() {
+		this.searchMovimenti();
+	}
 }

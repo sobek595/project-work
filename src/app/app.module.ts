@@ -15,6 +15,7 @@ import { RicaricaComponent } from './pages/ricarica/ricarica.component';
 import { BonificoComponent } from './pages/bonifico/bonifico.component';
 import { ResetPasswordComponent } from './pages/reset-password/reset-password.component';
 import { RicercaDateComponent } from './pages/ricerca-date/ricerca-date.component';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 @NgModule({
   declarations: [
@@ -26,15 +27,15 @@ import { RicercaDateComponent } from './pages/ricerca-date/ricerca-date.componen
     MenuComponent,
     RicaricaComponent,
     BonificoComponent,
-    ResetPasswordComponent,
-    RicercaDateComponent
+    ResetPasswordComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     ReactiveFormsModule,
-    FormsModule
-  ],
+    FormsModule,
+    NgbModule,
+],
   providers: [
     provideHttpClient(
       withInterceptors([authInterceptor])
