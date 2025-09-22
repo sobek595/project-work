@@ -26,7 +26,6 @@ export class MovService {
 
 
   listNumFiltered(filters: NumberFilter = {}) {
-    filters.quantita = 5;
     const q: any = omitBy(filters, isNil);
     return this.http.get<any>('/api/mov/MovLastNList', { params: q});
   }
