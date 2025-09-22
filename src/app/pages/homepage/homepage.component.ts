@@ -31,7 +31,6 @@ export class HomepageComponent {
       this.movSrv.listNumFiltered(filters).pipe(
         catchError(err => {
           console.error(err);
-          // ritorno un oggetto valido anche se vuoto
           return of<MovimentiResponse>({
             saldoFinale: 0,
             movimenti: []

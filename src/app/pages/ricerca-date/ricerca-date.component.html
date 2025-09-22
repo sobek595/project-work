@@ -1,0 +1,74 @@
+<div class="container mt-5">
+  <div class="row justify-content-center">
+    <div class="col-md-8">
+      <div class="card shadow">
+        <div class="card-body">
+          <h3 class="mb-3 text-center">Ricerca movimenti per data</h3>
+          <div class="mb-4 d-flex flex-wrap gap-3 align-items-center">
+            <label for="quantita" class="form-label mb-0">Numero movimenti:&nbsp;</label>
+            <select id="quantita" class="form-select w-auto d-inline-block"
+                [(ngModel)]="quantita"
+                (ngModelChange)="onQuantitaChange($event)">
+              <option *ngFor="let n of [1,5,10,20,50]" [value]="n">{{ n }}</option>
+            </select>
+            <button class="btn btn-outline-primary" (click)="openDateModal(dateInizioModal, 'inizio')">
+              Seleziona data inizio
+            </button>
+            <span *ngIf="dataInizio">Dal: {{ formatDate(dataInizio) }}</span>
+            <button class="btn btn-outline-primary" (click)="openDateModal(dateFineModal, 'fine')">
+              Seleziona data fine
+            </button>
+            <span *ngIf="dataFine">Al: {{ formatDate(dataFine) }}</span>
+          </div>
+
+          <!-- Modale per data inizio -->
+          <ng-template #dateInizioModal let-modal>
+            <div class="modal-header">
+              <h5 class="modal-title">Seleziona data inizio</h5>
+              <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss()"></button>
+            </div>
+            <div class="modal-body">
+              <ngb-datepicker [(ngModel)]="dataInizio"></ngb-datepicker>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-primary" (click)="modal.close(dataInizio)">Conferma</button>
+            </div>
+          </ng-template>
+
+          <!-- Modale per data fine -->
+          <ng-template #dateFineModal let-modal>
+            <div class="modal-header">
+              <h5 class="modal-title">Seleziona data fine</h5>
+              <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss()"></button>
+            </div>
+            <div class="modal-body">
+              <ngb-datepicker [(ngModel)]="dataFine"></ngb-datepicker>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-primary" (click)="modal.close(dataFine)">Conferma</button>
+            </div>
+          </ng-template>
+
+          <div *ngIf="movList$ | async as movList">
+            <h5 class="mb-4">Saldo: <span class="text-success">{{movList.saldoFinale | currency:'EUR'}}</span></h5>
+            <h6 class="mb-3">Movimenti trovati</h6>
+            <ul class="list-group">
+              <li *ngFor="let mov of movList.movimenti | slice:0:quantita" class="list-group-item">
+                <div class="d-flex flex-column">
+                  <span>{{mov.descrizioneEstesa}}</span>
+                  <span>{{ mov.categoriaMovimento?.NomeCategoria }}</span>
+                  <span [ngClass]="{'text-success': mov?.saldo! > 0, 'text-danger': mov?.saldo! < 0}" *ngIf="mov?.categoriaMovimento?.tipologia === true">
+                    {{mov?.saldo | currency:'EUR'}}
+                  </span>
+                  <span *ngIf="mov?.categoriaMovimento?.tipologia === false">
+                    - {{mov?.saldo | currency:'EUR'}}
+                  </span>
+                </div>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
