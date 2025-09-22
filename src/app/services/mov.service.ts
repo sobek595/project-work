@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { omitBy, isNil } from 'lodash';
+import { CategoriaMovimento, Movimento } from '../entities/Movimento';
 import { AuthService } from './auth.service';
 
 export type NumberFilter = {
@@ -10,6 +11,11 @@ export type NumberFilter = {
 export type DateFilter = {
   startDate?: string | null,
   endDate?: string | null
+}
+
+export type CatFilter = {
+  quantita?: number | null
+  categoria?: string | null
 }
 
 
@@ -47,4 +53,12 @@ export class MovService {
     return this.http.get<any>('/api/mov/MovBtwDatesList', { params: q});
   }
 
+  listCatFiltered(filters: CatFilter = {}){
+    const q: any = omitBy({filters}, isNil);
+    return this.http.get<any>('/api/mov/MovCatList', { params: q});
+  }
+
+  listCat() {
+    return this.http.get<CategoriaMovimento[]>('/api/cat/list');
+  }
 }

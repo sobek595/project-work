@@ -16,6 +16,7 @@ import { BonificoComponent } from './pages/bonifico/bonifico.component';
 import { ResetPasswordComponent } from './pages/reset-password/reset-password.component';
 import { RicercaDateComponent } from './pages/ricerca-date/ricerca-date.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { RicercaCategoriaComponent } from './pages/ricerca-categoria/ricerca-categoria.component';
 
 @NgModule({
   declarations: [
@@ -27,7 +28,8 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
     MenuComponent,
     RicaricaComponent,
     BonificoComponent,
-    ResetPasswordComponent
+    ResetPasswordComponent,
+    RicercaCategoriaComponent
   ],
   imports: [
     BrowserModule,

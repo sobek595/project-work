@@ -1,0 +1,110 @@
+<div class="container-fluid min-vh-100 bg-light">
+  <div class="row justify-content-center py-5">
+    <div class="col-12 col-md-8 col-lg-6">
+      <div class="card shadow-lg border-0">
+        <!-- Header -->
+        <div class="card-header text-center bg-primary text-white py-4">
+          <h4 class="mb-0">
+            <i class="fas fa-search me-2"></i>
+            Ricerca per Categoria
+          </h4>
+          
+          <small class="text-white-50">Filtra i movimenti per categoria e quantità</small>
+        </div>
+
+        <!-- Body -->
+        <div class="card-body p-4">
+          <form [formGroup]="filtersForm">
+            <!-- Selezione Categoria -->
+            <div class="mb-4">
+              <label class="form-label text-muted">Categoria</label>
+              <div class="input-group">
+                <span class="input-group-text bg-light">
+                  <i class="fas fa-tags"></i>
+                </span>
+                <select 
+                  class="form-select"
+                  formControlName="categoria"
+                  [class.is-invalid]="filtersForm.get('categoria')?.invalid && filtersForm.get('categoria')?.touched"
+                >
+                  <option value="">Seleziona una categoria</option>
+                  
+                  <option *ngFor="let cat of categorie$ | async" [value]="cat.CategoriaMovimentoID">
+                    {{ cat.NomeCategoria }}
+                  </option>
+                </select>
+              </div>
+            </div>
+
+            <!-- Selezione Quantità -->
+            <div class="mb-4">
+              <label class="form-label text-muted">Numero di movimenti</label>
+              <div class="input-group">
+                <span class="input-group-text bg-light">
+                  <i class="fas fa-list-ol"></i>
+                </span>
+                <select 
+                  class="form-select"
+                  formControlName="quantita"
+                  [class.is-invalid]="filtersForm.get('quantita')?.invalid && filtersForm.get('quantita')?.touched"
+                >
+                  <option value="">Seleziona quantità</option>
+                  <option value="5">Ultimi 5</option>
+                  <option value="10">Ultimi 10</option>
+                  <option value="20">Ultimi 20</option>
+                  <option value="50">Ultimi 50</option>
+                </select>
+              </div>
+              <div class="invalid-feedback" *ngIf="filtersForm.get('quantita')?.invalid && filtersForm.get('quantita')?.touched">
+                Seleziona il numero di movimenti
+              </div>
+            </div>
+
+            <!-- Error message -->
+
+            <!-- Risultati della ricerca -->
+            <div class="mt-4" *ngIf="movList$ | async as risultati">
+              <h5 class="mb-3 text-muted">Risultati della ricerca</h5>
+              
+              <div class="list-group">
+                <div class="list-group-item p-3" *ngFor="let movimento of risultati">
+                  <div class="d-flex justify-content-between align-items-center">
+                    <div>
+                      <h6 class="mb-1">{{ movimento.descrizioneEstesa }}</h6>
+                      <small class="text-muted">{{ movimento.dataMovimento | date:'dd/MM/yyyy HH:mm' }}</small>
+                    </div>
+                    <div class="text-end">
+                      <h6 [class.text-success]="movimento.importo > 0" 
+                          [class.text-danger]="movimento.importo < 0" 
+                          class="mb-1">
+                        {{ movimento.importo | currency:'EUR' }}
+                      </h6>
+                      <small class="text-muted">{{ movimento.categoriaMovimento }}</small>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Messaggio se non ci sono risultati -->
+              <div class="text-center text-muted" *ngIf="risultati.length === 0">
+                Nessun movimento trovato per i criteri selezionati
+              </div>
+            </div>
+
+            <!-- Pulsanti -->
+            <div class="d-grid gap-2 mt-4">
+              <button 
+                type="button" 
+                class="btn btn-outline-secondary"
+                routerLink="/homepage"
+              >
+                <i class="fas fa-home me-2"></i>
+                Torna alla Homepage
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
