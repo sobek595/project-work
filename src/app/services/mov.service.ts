@@ -8,6 +8,11 @@ export type NumberFilter = {
   quantita?: number | null
 }
 
+export type DateFilter = {
+  startDate?: string | null,
+  endDate?: string | null
+}
+
 
 @Injectable({
   providedIn: 'root'
@@ -34,6 +39,11 @@ export class MovService {
   addMovBonifico(importo: number, descrizioneEstesa: string, ibanDestinatario: string){
     const categoriaMovimento = "3";
     return this.http.post<any>('/api/mov/AddMov', {importo, descrizioneEstesa, ibanDestinatario, categoriaMovimento});
+  }
+
+  listDateFiltered(startDate: string | null, endDate: string | null){
+    const q: any = omitBy({startDate, endDate}, isNil);
+    return this.http.get<any>('/api/mov/MovBtwDatesList', { params: q});
   }
 
 }

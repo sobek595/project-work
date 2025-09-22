@@ -13,6 +13,8 @@ import { HomepageComponent } from './pages/homepage/homepage.component';
 import { MenuComponent } from './components/menu/menu.component';
 import { RicaricaComponent } from './pages/ricarica/ricarica.component';
 import { BonificoComponent } from './pages/bonifico/bonifico.component';
+import { ResetPasswordComponent } from './pages/reset-password/reset-password.component';
+import { RicercaDateComponent } from './pages/ricerca-date/ricerca-date.component';
 
 @NgModule({
   declarations: [
@@ -23,7 +25,9 @@ import { BonificoComponent } from './pages/bonifico/bonifico.component';
     HomepageComponent,
     MenuComponent,
     RicaricaComponent,
-    BonificoComponent
+    BonificoComponent,
+    ResetPasswordComponent,
+    RicercaDateComponent
   ],
   imports: [
     BrowserModule,
