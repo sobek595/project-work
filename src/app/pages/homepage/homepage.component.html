@@ -26,11 +26,11 @@
                 <span>{{ mov.categoriaMovimento?.NomeCategoria }}</span>
                 <span class="text-success"
                     *ngIf ="mov?.categoriaMovimento?.tipologia === true">
-                  {{mov?.saldo | currency:'EUR'}}
+                  {{mov?.importo | currency:'EUR'}}
                 </span>
                 <span class="text-danger"
                     *ngIf ="mov?.categoriaMovimento?.tipologia === false">
-                  - {{mov?.saldo | currency:'EUR'}}
+                  - {{mov?.importo | currency:'EUR'}}
                 </span>
               </li>
             </ul>

@@ -51,9 +51,15 @@
                     <h6 class="mb-1">{{mov.descrizioneEstesa}}</h6>
                     <small>{{mov.data | date}}</small>
                   </div>
-                  <span [ngClass]="{'text-success': mov.importo > 0, 'text-danger': mov.importo < 0}">
-                    {{mov.importo | currency:'EUR'}}
-                  </span>
+
+                <span class="text-success"
+                    *ngIf ="mov?.categoriaMovimento?.tipologia === true">
+                  {{mov?.importo | currency:'EUR'}}
+                </span>
+                <span class="text-danger"
+                    *ngIf ="mov?.categoriaMovimento?.tipologia === false">
+                  - {{mov?.importo | currency:'EUR'}}
+                </span>
                 </div>
               </div>
             </div>

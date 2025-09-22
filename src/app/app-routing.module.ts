@@ -8,6 +8,7 @@ import { ProfileComponent } from './pages/profile/profile.component';
 import { RicaricaComponent } from './pages/ricarica/ricarica.component';
 import { BonificoComponent } from './pages/bonifico/bonifico.component';
 import { RicercaDateComponent } from './pages/ricerca-date/ricerca-date.component';
+import { RicercaCategoriaComponent } from './pages/ricerca-categoria/ricerca-categoria.component';
 
 const routes: Routes = [
   {
@@ -39,6 +40,10 @@ const routes: Routes = [
   {
     path: 'ricerca-date',
     component: RicercaDateComponent
+  },
+  {
+    path: 'ricerca-categoria',
+    component: RicercaCategoriaComponent
   },
   {
     path: '',
