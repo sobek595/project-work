@@ -26,8 +26,9 @@ export class MovService {
 
 
   listNumFiltered(filters: NumberFilter = {}) {
+    filters.quantita = 5;
     const q: any = omitBy(filters, isNil);
-    return this.http.get<any>('/api/mov/MovLast5List', { params: q});
+    return this.http.get<any>('/api/mov/MovLastNList', { params: q});
   }
 
   addMovRicaricaTelefonica(importo: number, descrizioneEstesa: string, categoriaMovimento: string) {
