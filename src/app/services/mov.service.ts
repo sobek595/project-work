@@ -1,7 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { omitBy, isNil } from 'lodash';
-import { Movimento } from '../entities/Movimento';
 import { AuthService } from './auth.service';
 
 export type NumberFilter = {
@@ -27,18 +26,21 @@ export class MovService {
 
 
   listNumFiltered(filters: NumberFilter = {}) {
+    filters.quantita = 5;
     const q: any = omitBy(filters, isNil);
-    return this.http.get<any>('/api/mov/MovLast5List', { params: q});
+    return this.http.get<any>('/api/mov/MovLastNList', { params: q});
   }
 
   addMovRicaricaTelefonica(importo: number, descrizioneEstesa: string, categoriaMovimento: string) {
     categoriaMovimento = "1";
-    return this.http.post<any>('/api/mov/AddMov', { importo, descrizioneEstesa, categoriaMovimento });
+    const q: any = { importo, descrizioneEstesa, categoriaMovimento };
+    return this.http.post<any>('/api/mov/AddMov', q);
   }
 
   addMovBonifico(importo: number, descrizioneEstesa: string, ibanDestinatario: string){
     const categoriaMovimento = "3";
-    return this.http.post<any>('/api/mov/AddMov', {importo, descrizioneEstesa, ibanDestinatario, categoriaMovimento});
+    const q: any = { importo, descrizioneEstesa, ibanDestinatario, categoriaMovimento };
+    return this.http.post<any>('/api/mov/AddMov', q);
   }
 
   listDateFiltered(startDate: string | null, endDate: string | null){
