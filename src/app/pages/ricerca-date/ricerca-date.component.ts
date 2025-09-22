@@ -9,13 +9,13 @@ import { Observable } from 'rxjs';
   selector: 'app-ricerca-date',
   templateUrl: './ricerca-date.component.html',
   styleUrl: './ricerca-date.component.css',
-  imports: [NgbModule, 
-            CurrencyPipe,
-            DatePipe,
-            NgIf,
-            NgFor,
-            NgClass,
-            AsyncPipe
+  imports: [	NgbModule, 
+            	CurrencyPipe,
+            	DatePipe,
+            	NgIf,
+            	NgFor,
+            	NgClass,
+            	AsyncPipe
           ],
 })
 export class RicercaDateComponent implements OnInit {
