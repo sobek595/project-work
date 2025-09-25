@@ -1,0 +1,22 @@
+
+<div  class="list-group-item list-group-item-action d-flex justify-content-between align-items-center mb-2 p-3 border rounded"
+  
+  ngbTooltip="Dettaglio"
+  (click)="onDetails()"
+  placement="top"
+  role="button"
+  style="cursor: pointer;">
+
+    
+    <span>{{ mov.categoriaMovimento?.NomeCategoria }}</span>
+    <span>{{ mov.data | date }}</span>
+    <span class="text-success"
+        *ngIf ="mov?.categoriaMovimento?.tipologia === true">
+        {{mov.importo | currency:'EUR'}}
+    </span>
+    <span class="text-danger"
+        *ngIf ="mov?.categoriaMovimento?.tipologia === false">
+        - {{mov.importo | currency:'EUR'}}
+    </span>
+</div>
+

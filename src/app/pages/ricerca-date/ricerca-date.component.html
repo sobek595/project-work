@@ -4,66 +4,85 @@
       <div class="card shadow">
         <div class="card-body">
           <h3 class="card-title text-center mb-4">Ricerca Movimenti per Data</h3>
-          
-          <!-- Date Range Picker -->
-          <div class="mb-4">
-            <ngb-datepicker 
-              #dp 
-              (dateSelect)="onDateSelection($event)" 
-              [displayMonths]="2" 
-              [dayTemplate]="t" 
-              outsideDays="hidden"
-              class="w-100" 
-            />
 
-            <ng-template #t let-date let-focused="focused">
-              <span
-                class="custom-day"
-                [class.focused]="focused"
-                [class.range]="isRange(date)"
-                [class.faded]="isHovered(date) || isInside(date)"
-                (mouseenter)="hoveredDate = date"
-                (mouseleave)="hoveredDate = null"
+          <!-- Form principale con formGroup -->
+          <form [formGroup]="filtersForm">
+
+            <!-- Date Range Picker -->
+            <div class="mb-4">
+              <ngb-datepicker 
+                #dp 
+                (dateSelect)="onDateSelection($event)" 
+                [displayMonths]="2" 
+                [dayTemplate]="t" 
+                outsideDays="hidden"
+                class="w-100">
+              </ngb-datepicker>
+
+              <ng-template #t let-date let-focused="focused">
+                <span
+                  class="custom-day"
+                  [class.focused]="focused"
+                  [class.range]="isRange(date)"
+                  [class.faded]="isHovered(date) || isInside(date)"
+                  (mouseenter)="hoveredDate = date"
+                  (mouseleave)="hoveredDate = null"
+                >
+                  {{ date.day }}
+                </span>
+              </ng-template>
+
+              <div class="mt-3">
+                <p class="mb-2">
+                  <strong>Periodo selezionato:</strong><br>
+                  Dal: {{ formatDateStruct(fromDate) }} <br>
+                  Al: {{ formatDateStruct(toDate) }}
+                </p>
+                <button class="btn btn-primary me-2" (click)="searchMovimenti()" [disabled]="!fromDate || !toDate">
+                  Cerca Movimenti
+                </button>
+              </div>
+            </div>
+
+            <!-- 🔹 Filtri -->
+            <div class="d-flex align-items-center mt-3">
+              <label class="me-2">N:</label>
+              <select 
+                class="form-select me-3 w-25"
+                formControlName="n"
+                [class.is-invalid]="filtersForm.get('n')?.invalid && filtersForm.get('n')?.touched"
               >
-                {{ date.day }}
-              </span>
-            </ng-template>
+                <option value="">Seleziona quantità</option>
+                <option value="1">Ultimi 1</option>
+                <option value="5">Ultimi 5</option>
+                <option value="10">Ultimi 10</option>
+                <option value="20">Ultimi 20</option>
+                <option value="50">Ultimi 50</option>
+              </select>
 
-            <div class="mt-3">
-              <p class="mb-2">
-                <strong>Periodo selezionato:</strong><br>
-                Dal: {{ formatDateStruct(fromDate) }} <br>
-                Al: {{ formatDateStruct(toDate) }}
-              </p>
-              <button class="btn btn-primary" (click)="searchMovimenti()" [disabled]="!fromDate || !toDate">
-                Cerca Movimenti
+              <label class="me-2">Formato:</label>
+              <select class="form-select me-3 w-25" formControlName="formato">
+                <option value="csv">CSV</option>
+                <option value="xlsx">Excel</option>
+              </select>
+
+              <button class="btn btn-primary" type="submit" [disabled]="!fromDate || !toDate" (click)="onExport()">
+                Export
               </button>
             </div>
-          </div>
+
+          </form>
 
           <!-- Results -->
           <div *ngIf="movimenti$ | async as movimenti">
             <h5 class="mb-3">Movimenti trovati</h5>
             <div class="list-group">
-              <div *ngFor="let mov of movimenti" class="list-group-item">
-                <div class="d-flex justify-content-between align-items-center">
-                  <div>
-                    <h6 class="mb-1">{{mov.descrizioneEstesa}}</h6>
-                    <small>{{mov.data | date}}</small>
-                  </div>
-
-                <span class="text-success"
-                    *ngIf ="mov?.categoriaMovimento?.tipologia === true">
-                  {{mov?.importo | currency:'EUR'}}
-                </span>
-                <span class="text-danger"
-                    *ngIf ="mov?.categoriaMovimento?.tipologia === false">
-                  - {{mov?.importo | currency:'EUR'}}
-                </span>
-                </div>
+              <div *ngFor="let mov of movimenti">
+                <app-movimento [mov]="mov" (details)="goToDetails($event)"></app-movimento>
               </div>
             </div>
           </div>
+
         </div>
       </div>
     </div>

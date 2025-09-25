@@ -14,7 +14,7 @@ export type DateFilter = {
 }
 
 export type CatFilter = {
-  quantita?: number | null
+  n?: number | null
   categoria?: string | null
 }
 
@@ -48,17 +48,44 @@ export class MovService {
     return this.http.post<any>('/api/mov/AddMov', q);
   }
 
-  listDateFiltered(startDate: string | null, endDate: string | null){
-    const q: any = omitBy({startDate, endDate}, isNil);
+  listDateFiltered(startDate: string | null, endDate: string | null, n: number | null) {
+    const q: any = omitBy({startDate, endDate,n}, isNil);
     return this.http.get<any>('/api/mov/MovBtwDatesList', { params: q});
   }
 
-  listCatFiltered(filters: CatFilter = {}){
-    const q: any = omitBy({filters}, isNil);
+  listCatFiltered(n: number | null, categoria: string | null){
+    console.log(n, categoria);
+    const q: any = omitBy({n, categoria}, isNil);
     return this.http.get<any>('/api/mov/MovCatList', { params: q});
   }
 
   listCat() {
     return this.http.get<CategoriaMovimento[]>('/api/cat/list');
+  }
+
+  exportMovimentiN(n: number, formato: string) {
+    return this.http.get(`/api/mov/exp1`, {
+      params: { n, formato },
+      responseType: 'blob' // fondamentale per file
+    });
+  }
+
+  exportMovimentiCat(n: number, categoria: string ,formato: string) {
+    return this.http.get(`/api/mov/exp2`, {
+      params: { n, categoria,formato  },
+      responseType: 'blob' // fondamentale per file
+    });
+  }
+
+  exportMovimentiDate(n: number, dataInizio: string , dataFine: string  ,formato: string) {
+    return this.http.get(`/api/mov/exp3`, {
+      params: { n, dataInizio, dataFine ,formato  },
+      responseType: 'blob' // fondamentale per file
+    });
+  }
+
+  getById(id: string) {
+    console.log(this.http.get<Movimento>(`/api/mov/${id}`));
+    return this.http.get<Movimento>(`/api/mov/${id}`);
   }
 }

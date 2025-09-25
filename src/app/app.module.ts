@@ -15,8 +15,10 @@ import { RicaricaComponent } from './pages/ricarica/ricarica.component';
 import { BonificoComponent } from './pages/bonifico/bonifico.component';
 import { ResetPasswordComponent } from './pages/reset-password/reset-password.component';
 import { RicercaDateComponent } from './pages/ricerca-date/ricerca-date.component';
-import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { NgbDatepickerModule, NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { RicercaCategoriaComponent } from './pages/ricerca-categoria/ricerca-categoria.component';
+import { MovimentoComponent } from './components/movimento/movimento.component';
+import { DettaglioMovimentoComponent } from './pages/dettaglio-movimento/dettaglio-movimento.component';
 
 @NgModule({
   declarations: [
@@ -29,7 +31,10 @@ import { RicercaCategoriaComponent } from './pages/ricerca-categoria/ricerca-cat
     RicaricaComponent,
     BonificoComponent,
     ResetPasswordComponent,
-    RicercaCategoriaComponent
+    RicercaCategoriaComponent,
+    RicercaDateComponent,
+    MovimentoComponent,
+    DettaglioMovimentoComponent
   ],
   imports: [
     BrowserModule,
@@ -37,6 +42,7 @@ import { RicercaCategoriaComponent } from './pages/ricerca-categoria/ricerca-cat
     ReactiveFormsModule,
     FormsModule,
     NgbModule,
+    NgbDatepickerModule
 ],
   providers: [
     provideHttpClient(

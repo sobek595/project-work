@@ -14,111 +14,108 @@
         <!-- Body della card -->
         <div class="card-body p-4">
           <form [formGroup]="bonificoForm" (ngSubmit)="bonifico()">
-            <!-- Beneficiario -->
-            <div class="mb-4">
-              <label class="form-label text-muted">Beneficiario</label>
-              <div class="input-group">
-                <span class="input-group-text bg-light">
-                  <i class="fas fa-user"></i>
-                </span>
-                <input 
-                  type="text" 
-                  class="form-control"
-                  placeholder="Nome e Cognome del beneficiario"
-                  [class.is-invalid]="bonificoForm.get('beneficiario')?.invalid && bonificoForm.get('beneficiario')?.touched"
-                >
-              </div>
-              <div class="invalid-feedback" *ngIf="bonificoForm.get('beneficiario')?.invalid && bonificoForm.get('beneficiario')?.touched">
-                Nome beneficiario obbligatorio
-              </div>
-            </div>
 
-            <!-- IBAN -->
-            <div class="mb-4">
-              <label class="form-label text-muted">IBAN Beneficiario</label>
-              <div class="input-group">
-                <span class="input-group-text bg-light">
-                  <i class="fas fa-credit-card"></i>
-                </span>
-                <input 
-                  type="text" 
-                  class="form-control"
-                  formControlName="iban"
-                  placeholder="IT60X0542811101000000123456"
-                  [class.is-invalid]="bonificoForm.get('iban')?.invalid && bonificoForm.get('iban')?.touched"
-                >
-              </div>
-              <div class="invalid-feedback" *ngIf="bonificoForm.get('iban')?.invalid && bonificoForm.get('iban')?.touched">
-                IBAN non valido
-              </div>
-            </div>
+  <!-- Beneficiario -->
+  <div class="mb-4">
+    <label class="form-label text-muted">Beneficiario</label>
+    <div class="input-group">
+      <span class="input-group-text bg-light">
+        <i class="fas fa-user"></i>
+      </span>
+      <input 
+        type="text" 
+        class="form-control"
+        formControlName="beneficiario"
+        placeholder="Nome e Cognome del beneficiario"
+        [class.is-invalid]="bonificoForm.get('beneficiario')?.touched && bonificoForm.get('beneficiario')?.invalid"
+      >
+    </div>
+    <div class="invalid-feedback" *ngIf="bonificoForm.get('beneficiario')?.touched && bonificoForm.get('beneficiario')?.invalid">
+      Nome beneficiario obbligatorio
+    </div>
+  </div>
 
-            <!-- Importo -->
-            <div class="mb-4">
-              <label class="form-label text-muted">Importo</label>
-              <div class="input-group">
-                <span class="input-group-text bg-light">
-                  <i class="fas fa-euro-sign"></i>
-                </span>
-                <input 
-                  type="number" 
-                  class="form-control"
-                  formControlName="importo"
-                  placeholder="0.00"
-                  [class.is-invalid]="bonificoForm.get('importo')?.invalid && bonificoForm.get('importo')?.touched"
-                >
-              </div>
-              <div class="invalid-feedback" *ngIf="bonificoForm.get('importo')?.invalid && bonificoForm.get('importo')?.touched">
-                <span *ngIf="bonificoForm.get('importo')?.errors?.['required']">Importo obbligatorio</span>
-                <span *ngIf="bonificoForm.get('importo')?.errors?.['min']">L'importo deve essere maggiore di 0</span>
-              </div>
-            </div>
+  <!-- IBAN -->
+  <div class="mb-4">
+    <label class="form-label text-muted">IBAN Beneficiario</label>
+    <div class="input-group">
+      <span class="input-group-text bg-light">
+        <i class="fas fa-credit-card"></i>
+      </span>
+      <input 
+        type="text" 
+        class="form-control"
+        formControlName="iban"
+        placeholder="IT60X0542811101000000123456"
+        [class.is-invalid]="bonificoForm.get('iban')?.touched && bonificoForm.get('iban')?.invalid"
+      >
+    </div>
+    <div class="invalid-feedback" *ngIf="bonificoForm.get('iban')?.touched && bonificoForm.get('iban')?.invalid">
+      <span *ngIf="bonificoForm.get('iban')?.errors?.['required']">IBAN obbligatorio</span>
+      <span *ngIf="bonificoForm.get('iban')?.errors?.['pattern']">Formato IBAN non valido</span>
+    </div>
+  </div>
 
-            <!-- Causale -->
-            <div class="mb-4">
-              <label class="form-label text-muted">Causale</label>
-              <div class="input-group">
-                <span class="input-group-text bg-light">
-                  <i class="fas fa-pen"></i>
-                </span>
-                <textarea 
-                  class="form-control"
-                  formControlName="descrizioneEstesa"
-                  rows="3"
-                  placeholder="Inserisci la causale del bonifico"
-                  [class.is-invalid]="bonificoForm.get('causale')?.invalid && bonificoForm.get('causale')?.touched"
-                ></textarea>
-              </div>
-              <div class="invalid-feedback" *ngIf="bonificoForm.get('causale')?.invalid && bonificoForm.get('causale')?.touched">
-                Causale obbligatoria
-              </div>
-            </div>
+  <!-- Importo -->
+  <div class="mb-4">
+    <label class="form-label text-muted">Importo</label>
+    <div class="input-group">
+      <span class="input-group-text bg-light">
+        <i class="fas fa-euro-sign"></i>
+      </span>
+      <input 
+        type="number" 
+        class="form-control"
+        formControlName="importo"
+        placeholder="0.00"
+        [class.is-invalid]="bonificoForm.get('importo')?.touched && bonificoForm.get('importo')?.invalid"
+      >
+    </div>
+    <div class="invalid-feedback" *ngIf="bonificoForm.get('importo')?.touched && bonificoForm.get('importo')?.invalid">
+      <span *ngIf="bonificoForm.get('importo')?.errors?.['required']">Importo obbligatorio</span>
+      <span *ngIf="bonificoForm.get('importo')?.errors?.['min']">L'importo deve essere maggiore di 0</span>
+    </div>
+  </div>
 
-            <!-- Error message -->
-            <div class="alert alert-danger" *ngIf="bonificoError">
-              {{ bonificoError }}
-            </div>
+  <!-- Causale -->
+  <div class="mb-4">
+    <label class="form-label text-muted">Causale</label>
+    <div class="input-group">
+      <span class="input-group-text bg-light">
+        <i class="fas fa-pen"></i>
+      </span>
+      <textarea 
+        class="form-control"
+        formControlName="descrizioneEstesa"
+        rows="3"
+        placeholder="Inserisci la causale del bonifico"
+        [class.is-invalid]="bonificoForm.get('descrizioneEstesa')?.touched && bonificoForm.get('descrizioneEstesa')?.invalid"
+      ></textarea>
+    </div>
+    <div class="invalid-feedback" *ngIf="bonificoForm.get('descrizioneEstesa')?.touched && bonificoForm.get('descrizioneEstesa')?.invalid">
+      Causale obbligatoria
+    </div>
+  </div>
 
-            <!-- Submit button -->
-            <div class="d-grid gap-2">
-              <button 
-                type="submit" 
-                class="btn btn-primary py-2"
-                [disabled]="bonificoForm.invalid"
-              >
-                <i class="fas fa-paper-plane me-2"></i>
-                Esegui Bonifico
-              </button>
-              <button 
-                type="button" 
-                class="btn btn-outline-secondary"
-                routerLink="/homepage"
-              >
-                <i class="fas fa-times me-2"></i>
-                Annulla
-              </button>
-            </div>
-          </form>
+  <!-- Error generale -->
+  <div class="alert alert-danger" *ngIf="bonificoError">
+    {{ bonificoError }}
+  </div>
+
+  <!-- Bottoni -->
+  <div class="d-grid gap-2">
+    <button type="submit" class="btn btn-primary py-2" [disabled]="bonificoForm.invalid">
+      <i class="fas fa-paper-plane me-2"></i>
+      Esegui Bonifico
+    </button>
+    <button type="button" class="btn btn-outline-secondary" routerLink="/homepage">
+      <i class="fas fa-times me-2"></i>
+      Annulla
+    </button>
+  </div>
+</form>
+
+
         </div>
       </div>
 

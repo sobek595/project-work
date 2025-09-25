@@ -94,6 +94,35 @@
               </div>
             </div>
 
+            <!-- Conferma Password input -->
+            <div class="form-group mb-4">
+              <label class="form-label text-muted">Conferma Password</label>
+              <div class="input-group">
+                <span class="input-group-text bg-light">
+                  <i class="fas fa-lock"></i>
+                </span>
+                <input 
+                  type="password" 
+                  class="form-control"
+                  formControlName="confirmPassword"
+                  [class.is-invalid]="
+                    registerForm.get('confirmPassword')?.touched && 
+                    registerForm.get('confirmPassword')?.errors
+                  "
+                  placeholder="Conferma la password"
+                />
+              </div>
+              <div class="invalid-feedback" *ngIf="registerForm.get('confirmPassword')?.touched">
+                <span *ngIf="registerForm.get('confirmPassword')?.errors?.['required']">
+                  Conferma password obbligatoria
+                </span>
+                <span *ngIf="registerForm.get('confirmPassword')?.errors?.['passwordMismatch']">
+                  Le password non coincidono
+                </span>
+              </div>
+            </div>
+
+
             <!-- Error message -->
             <div class="alert alert-danger" *ngIf="registerError">
               {{ registerError }}

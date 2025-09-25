@@ -18,10 +18,17 @@ export class BonificoComponent {
   protected destroyed$ = new Subject<void>();
 
   bonificoForm = this.fb.group({
-    importo: ['', [Validators.required]],
-    iban: ['', Validators.required],
-    descrizioneEstesa: ['', Validators.required]
-  });
+  beneficiario: ['', Validators.required],
+  iban: [
+    '',
+    [
+      Validators.required,
+      Validators.pattern(/^[A-Z]{2}[0-9]{2}[A-Z0-9]{11,30}$/i) // IBAN generale
+    ]
+  ],
+  importo: ['', [Validators.required, Validators.min(0.01)]],
+  descrizioneEstesa: ['', Validators.required]
+});
 
   bonificoError = '';
 
@@ -38,10 +45,10 @@ export class BonificoComponent {
     this.destroyed$.complete();
   }
   bonifico() {
-    const { importo, iban, descrizioneEstesa } = this.bonificoForm.value;
-    this.movSrv.addMovBonifico(Number(importo), descrizioneEstesa!, iban!).pipe(
+    const { importo, iban, descrizioneEstesa, beneficiario } = this.bonificoForm.value;
+    this.movSrv.addMovBonifico(Number(importo), 'IBAN Beneficiario: '+iban! + ' - Beneficiario: '+ beneficiario! + ' - ' +descrizioneEstesa! , iban!).pipe(
             catchError(response => {
-              this.bonificoError = response.error.message;
+              this.bonificoError = response.error.error;
               return throwError(() => response);
             })
           )

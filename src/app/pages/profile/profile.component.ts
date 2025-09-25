@@ -19,6 +19,15 @@ export class ProfileComponent {
 
     currentUser$ = this.authSrv.currentUser$
 
+    ngOnInit(){
+      this.authSrv.fetchUser().subscribe();
+    }
+
+    ngOnDestroy(): void {
+    this.destroyed$.next();
+    this.destroyed$.complete();
+  }
+
     logout() {
       this.authSrv.logout();
       this.router.navigate(['/login']);

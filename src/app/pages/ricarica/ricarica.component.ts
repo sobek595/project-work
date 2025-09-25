@@ -19,19 +19,23 @@ export class RicaricaComponent {
   movError = '';
 
   ricaricaForm = this.fb.group({
-    numeroTelefono: [''],
+    numeroTelefono: ['',[
+      Validators.required,
+      Validators.pattern(/^[0-9]{10}$/) // esattamente 10 cifre
+    ]],
+    operatore: ['', Validators.required],
     importo: ['', Validators.required],
     descrizioneEstesa: ['', Validators.required],
   })
 
 addMovRicarica() {
-  const { importo, descrizioneEstesa, numeroTelefono } = this.ricaricaForm.value;
+  const { importo, descrizioneEstesa, numeroTelefono, operatore } = this.ricaricaForm.value;
   const categoriaMovimento = "1";
 
-  this.movSrv.addMovRicaricaTelefonica(Number(importo)!, '(' + numeroTelefono + ') '  + descrizioneEstesa!, categoriaMovimento)
+  this.movSrv.addMovRicaricaTelefonica(Number(importo)!, '(' + numeroTelefono +' '+ operatore + ') '  + descrizioneEstesa!, categoriaMovimento)
     .pipe(
       catchError(response => {
-        this.movError = response.error.message;
+        this.movError = response.error.error;
         return throwError(() => response);
       })
     )

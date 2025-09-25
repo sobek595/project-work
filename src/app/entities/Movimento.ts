@@ -3,6 +3,7 @@ import { ContoCorrente } from "./ControCorrente";
 export type CategoriaMovimento = { id?: number; CategoriaMovimentoID?: string ;NomeCategoria?: string; tipologia: boolean; };
 
 export type Movimento = {
+    _id: string;
     importo: number | null;
     movimentoID: string | null;
     contoCorrente: ContoCorrente | null;

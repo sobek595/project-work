@@ -5,6 +5,8 @@
         <div class="card-body">
           <h3 class="card-title text-center mb-4">Ricarica Telefonica</h3>
           <form [formGroup]="ricaricaForm" (ngSubmit)="addMovRicarica()">
+
+            <!-- Numero di telefono -->
             <div class="mb-3">
               <label for="numeroTelefono" class="form-label">Numero di telefono</label>
               <input
@@ -13,9 +15,41 @@
                 class="form-control"
                 formControlName="numeroTelefono"
                 placeholder="Inserisci il numero di telefono"
-                required
+                [class.is-invalid]="
+                  ricaricaForm.get('numeroTelefono')?.touched &&
+                  ricaricaForm.get('numeroTelefono')?.invalid
+                "
               />
+              <div class="invalid-feedback" *ngIf="ricaricaForm.get('numeroTelefono')?.touched">
+                <span *ngIf="ricaricaForm.get('numeroTelefono')?.errors?.['required']">
+                  Numero obbligatorio
+                </span>
+                <span *ngIf="ricaricaForm.get('numeroTelefono')?.errors?.['pattern']">
+                  Il numero deve contenere esattamente 10 cifre
+                </span>
+              </div>
             </div>
+
+             <div class="mb-3">
+              <label for="operatore" class="form-label">Operatore Telefonico</label>
+              <input
+                type="text"
+                id="operatore"
+                class="form-control"
+                formControlName="operatore"
+                placeholder="Inserisci operatore Telefonico"
+                [class.is-invalid]="
+                  ricaricaForm.get('operatore')?.touched &&
+                  ricaricaForm.get('operatore')?.invalid
+                "
+              />
+              <div class="invalid-feedback" *ngIf="ricaricaForm.get('operatore')?.touched">
+                <span *ngIf="ricaricaForm.get('operatore')?.errors?.['required']">
+                  Operatore obbligatorio
+                </span>
+              </div>
+            </div>
+            <!-- Importo -->
             <div class="mb-3">
               <label for="importo" class="form-label">Importo</label>
               <input
@@ -24,9 +58,19 @@
                 class="form-control"
                 formControlName="importo"
                 placeholder="Inserisci l'importo"
-                required
+                [class.is-invalid]="
+                  ricaricaForm.get('importo')?.touched &&
+                  ricaricaForm.get('importo')?.invalid
+                "
               />
+              <div class="invalid-feedback" *ngIf="ricaricaForm.get('importo')?.touched">
+                <span *ngIf="ricaricaForm.get('importo')?.errors?.['required']">
+                  Importo obbligatorio
+                </span>
+              </div>
             </div>
+
+            <!-- Descrizione -->
             <div class="mb-3">
               <label for="descrizioneEstesa" class="form-label">Descrizione</label>
               <textarea
@@ -35,9 +79,24 @@
                 formControlName="descrizioneEstesa"
                 rows="3"
                 placeholder="Aggiungi una descrizione"
-                required
+                [class.is-invalid]="
+                  ricaricaForm.get('descrizioneEstesa')?.touched &&
+                  ricaricaForm.get('descrizioneEstesa')?.invalid
+                "
               ></textarea>
+              <div class="invalid-feedback" *ngIf="ricaricaForm.get('descrizioneEstesa')?.touched">
+                <span *ngIf="ricaricaForm.get('descrizioneEstesa')?.errors?.['required']">
+                  Descrizione obbligatoria
+                </span>
+              </div>
             </div>
+
+            <!-- Error generale -->
+            <div class="alert alert-danger" *ngIf="movError">
+              {{ movError }}
+            </div>
+
+            <!-- Submit -->
             <button type="submit" class="btn btn-primary w-100" [disabled]="ricaricaForm.invalid">
               Ricarica
             </button>

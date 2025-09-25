@@ -5,6 +5,7 @@ import { MovService, NumberFilter } from '../../services/mov.service';
 import { catchError, debounceTime, map, Observable, Subject, switchMap, takeUntil, tap, filter, merge, of } from 'rxjs';
 import { omitBy } from 'lodash';
 import { Movimento } from '../../entities/Movimento';
+import { FormBuilder } from '@angular/forms';
 
 @Component({
   selector: 'app-homepage',
@@ -32,7 +33,7 @@ export class HomepageComponent {
         catchError(err => {
           console.error(err);
           return of<MovimentiResponse>({
-            saldoFinale: 0,
+            saldo: 0,
             movimenti: []
           });
         })
@@ -75,10 +76,38 @@ export class HomepageComponent {
     this.quantita = Number(value);
     this.updateQueryParams$.next({ quantita: this.quantita });
   }
+
+
+
+private fb = inject(FormBuilder);
+
+  exportForm = this.fb.group({
+    formato: ['csv']
+  });
+
+  onExport() {
+    const n  = this.quantita
+    const { formato } = this.exportForm.value;
+
+    this.movSrv.exportMovimentiN(n!, formato!).subscribe(blob => {
+      const a = document.createElement('a');
+      const url = window.URL.createObjectURL(blob);
+      a.href = url;
+      a.download = `movimenti.${formato}`;
+      a.click();
+      window.URL.revokeObjectURL(url);
+    });
+  }
+
+  goToDetails(id: string) {
+    this.router.navigate(['/movimento', id]);
+  }
 }
+
+
 
 // Sposta l'interfaccia fuori dalla classe!
 export interface MovimentiResponse {
-  saldoFinale: number;
+  saldo: number;
   movimenti: Movimento[];
 }

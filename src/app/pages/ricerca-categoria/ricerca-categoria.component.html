@@ -14,7 +14,7 @@
 
         <!-- Body -->
         <div class="card-body p-4">
-          <form [formGroup]="filtersForm">
+          <form [formGroup]="filtersForm" (ngSubmit)="onExport()">
             <!-- Selezione Categoria -->
             <div class="mb-4">
               <label class="form-label text-muted">Categoria</label>
@@ -45,17 +45,18 @@
                 </span>
                 <select 
                   class="form-select"
-                  formControlName="quantita"
-                  [class.is-invalid]="filtersForm.get('quantita')?.invalid && filtersForm.get('quantita')?.touched"
+                  formControlName="n"
+                  [class.is-invalid]="filtersForm.get('n')?.invalid && filtersForm.get('n')?.touched"
                 >
                   <option value="">Seleziona quantità</option>
+                  <option value="1">Ultimi 1</option>
                   <option value="5">Ultimi 5</option>
                   <option value="10">Ultimi 10</option>
                   <option value="20">Ultimi 20</option>
                   <option value="50">Ultimi 50</option>
                 </select>
               </div>
-              <div class="invalid-feedback" *ngIf="filtersForm.get('quantita')?.invalid && filtersForm.get('quantita')?.touched">
+              <div class="invalid-feedback" *ngIf="filtersForm.get('n')?.invalid && filtersForm.get('n')?.touched">
                 Seleziona il numero di movimenti
               </div>
             </div>
@@ -67,22 +68,9 @@
               <h5 class="mb-3 text-muted">Risultati della ricerca</h5>
               
               <div class="list-group">
-                <div class="list-group-item p-3" *ngFor="let movimento of risultati">
-                  <div class="d-flex justify-content-between align-items-center">
-                    <div>
-                      <h6 class="mb-1">{{ movimento.descrizioneEstesa }}</h6>
-                      <small class="text-muted">{{ movimento.dataMovimento | date:'dd/MM/yyyy HH:mm' }}</small>
-                    </div>
-                    <div class="text-end">
-                      <h6 [class.text-success]="movimento.importo > 0" 
-                          [class.text-danger]="movimento.importo < 0" 
-                          class="mb-1">
-                        {{ movimento.importo | currency:'EUR' }}
-                      </h6>
-                      <small class="text-muted">{{ movimento.categoriaMovimento }}</small>
-                    </div>
-                  </div>
-                </div>
+                <div *ngFor="let mov of risultati" >
+                <app-movimento [mov]="mov" (details)="goToDetails($event)"></app-movimento>
+              </div>
               </div>
 
               <!-- Messaggio se non ci sono risultati -->
@@ -93,6 +81,17 @@
 
             <!-- Pulsanti -->
             <div class="d-grid gap-2 mt-4">
+              <div class="mb-3">
+                <label class="form-label">Formato</label>
+                <select class="form-select" formControlName="formato">
+                  <option value="csv">CSV</option>
+                  <option value="xlsx">Excel</option>
+                </select>
+              </div>
+
+              <button type="submit" class="btn btn-primary">
+                Scarica
+              </button>
               <button 
                 type="button" 
                 class="btn btn-outline-secondary"

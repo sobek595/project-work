@@ -18,23 +18,29 @@
 
           </div>
           <div *ngIf="movList$ | async as movList">
-            <h5 class="mb-4">Saldo: <span class="text-success">{{movList.saldoFinale | currency:'EUR'}}</span></h5>
+            <h5 class="mb-4">Saldo: <span class="text-success">{{movList.saldo | currency:'EUR'}}</span></h5>
             <h6 class="mb-3">Ultimi movimenti</h6>
             <ul class="list-group">
-              <li *ngFor="let mov of movList.movimenti | slice:0:quantita" class="list-group-item d-flex justify-content-between align-items-center">
-                <span>{{mov.descrizioneEstesa}}</span>
-                <span>{{ mov.categoriaMovimento?.NomeCategoria }}</span>
-                <span class="text-success"
-                    *ngIf ="mov?.categoriaMovimento?.tipologia === true">
-                  {{mov?.importo | currency:'EUR'}}
-                </span>
-                <span class="text-danger"
-                    *ngIf ="mov?.categoriaMovimento?.tipologia === false">
-                  - {{mov?.importo | currency:'EUR'}}
-                </span>
-              </li>
+              <div *ngFor="let mov of movList.movimenti | slice:0:quantita" >
+                <app-movimento [mov]="mov" (details)="goToDetails($event)"></app-movimento>
+              </div>
             </ul>
           </div>
+          <form [formGroup]="exportForm" (ngSubmit)="onExport()">
+
+  <div class="mb-3">
+    <label class="form-label">Formato</label>
+    <select class="form-select" formControlName="formato">
+      <option value="csv">CSV</option>
+      <option value="xlsx">Excel</option>
+    </select>
+  </div>
+
+  <button type="submit" class="btn btn-primary">
+    Scarica
+  </button>
+</form>
+
         </div>
       </div>
     </div>

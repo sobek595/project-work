@@ -23,25 +23,27 @@ export class RicercaCategoriaComponent {
 
   protected updateQueryParams$ = new Subject<CatFilter>();
 
-  filters$: Observable<CatFilter> = this.activatedRoute.data
-                                          .pipe(
-                                            map(data => data['filters'])
-                                          );
-
   categorie$ = this.movSrv.listCat();
 
-  movList$= this.filters$
-                .pipe(
-                  switchMap(filters => {
-                    return this.movSrv.listCatFiltered(filters)
-                      .pipe(
-                        catchError(err => {
-                          console.error(err);
-                          return [];
-                        })
-                      )
-                  })
-                );
+  filters$: Observable<CatFilter> = this.activatedRoute.queryParams.pipe(
+  map(params => ({
+    n: params['n'] ? Number(params['n']) : null,
+    categoria: params['categoria'] ?? null
+  }))
+);
+
+movList$ = this.filters$.pipe(
+  switchMap(filters => {
+    const n = filters.n ?? null;
+    const categoria = filters.categoria ?? null;
+    return this.movSrv.listCatFiltered(n, categoria).pipe(
+      catchError(err => {
+        console.error(err);
+        return of([]); // importante restituire un observable vuoto
+      })
+    );
+  })
+);
 
 
   protected destroyed$ = new Subject<void>();
@@ -81,8 +83,25 @@ export class RicercaCategoriaComponent {
    protected fb = inject(FormBuilder);
 
   filtersForm = this.fb.group({
-    quantita: new FormControl<number | null>(5),
+    n: new FormControl<number | null>(5),
     categoria: new FormControl<string | null>(''),
+    formato: ['csv']
     
   });
+
+  onExport() {
+    const { n, categoria , formato } = this.filtersForm.value;
+
+    this.movSrv.exportMovimentiCat(n!, categoria!, formato!).subscribe(blob => {
+      const a = document.createElement('a');
+      const url = window.URL.createObjectURL(blob);
+      a.href = url;
+      a.download = `movimenti.${formato}`;
+      a.click();
+      window.URL.revokeObjectURL(url);
+    });
+  }
+  goToDetails(id: string) {
+    this.router.navigate(['/movimento', id]);
+  }
 }

@@ -1,5 +1,5 @@
 import { Component, inject, OnDestroy, OnInit } from '@angular/core';
-import { FormBuilder, Validators } from '@angular/forms';
+import { AbstractControl, FormBuilder, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
 import { AuthService } from '../../services/auth.service';
 import { JwtService } from '../../services/jwt.service';
 import { Router } from '@angular/router';
@@ -19,12 +19,18 @@ export class RegisterComponent implements OnInit, OnDestroy {
 
   protected destroyed$ = new Subject<void>();
 
-  registerForm = this.fb.group({
+  registerForm = this.fb.group(
+  {
     nomeTitolare: ['', Validators.required],
     cognomeTitolare: ['', Validators.required],
     email: ['', [Validators.required, Validators.email]],
     password: ['', Validators.required],
-  });
+    confirmPassword: ['', Validators.required],
+  },
+  {
+    validators: this.matchPasswordsValidator('password', 'confirmPassword')
+  }
+);
 
   registerError = '';
 
@@ -59,4 +65,22 @@ export class RegisterComponent implements OnInit, OnDestroy {
    logout() {
     this.authSrv.logout();
   }
+
+  matchPasswordsValidator(passwordField: string, confirmPasswordField: string): ValidatorFn {
+  return (formGroup: AbstractControl): ValidationErrors | null => {
+    const password = formGroup.get(passwordField)?.value;
+    const confirmPassword = formGroup.get(confirmPasswordField)?.value;
+
+    if (password && confirmPassword && password !== confirmPassword) {
+      formGroup.get(confirmPasswordField)?.setErrors({ passwordMismatch: true });
+      return { passwordMismatch: true };
+    } else {
+      // se non ci sono errori, rimuovo passwordMismatch
+      if (formGroup.get(confirmPasswordField)?.hasError('passwordMismatch')) {
+        formGroup.get(confirmPasswordField)?.setErrors(null);
+      }
+      return null;
+    }
+  };
+}
 }

@@ -9,6 +9,9 @@ import { RicaricaComponent } from './pages/ricarica/ricarica.component';
 import { BonificoComponent } from './pages/bonifico/bonifico.component';
 import { RicercaDateComponent } from './pages/ricerca-date/ricerca-date.component';
 import { RicercaCategoriaComponent } from './pages/ricerca-categoria/ricerca-categoria.component';
+import { ResetPasswordComponent } from './pages/reset-password/reset-password.component';
+import { DettaglioMovimentoComponent } from './pages/dettaglio-movimento/dettaglio-movimento.component';
+import { movDetailResolver } from './resolvers/mov-detail.resolver';
 
 const routes: Routes = [
   {
@@ -31,19 +34,33 @@ const routes: Routes = [
   },
   {
     path: 'ricarica',
-    component: RicaricaComponent
+    component: RicaricaComponent,
+    canActivate: [authGuard]
   },
   {
     path: 'bonifico',
-    component: BonificoComponent
+    component: BonificoComponent,
+    canActivate: [authGuard]
   },
   {
     path: 'ricerca-date',
-    component: RicercaDateComponent
+    component: RicercaDateComponent,
+    canActivate: [authGuard]
   },
   {
     path: 'ricerca-categoria',
-    component: RicercaCategoriaComponent
+    component: RicercaCategoriaComponent,
+    canActivate: [authGuard]
+  },
+  {
+    path: 'change-password',
+    component: ResetPasswordComponent,
+    canActivate: [authGuard]
+  },
+  {
+    path:'movimento/:id',
+    component: DettaglioMovimentoComponent,
+    resolve: {movimento: movDetailResolver}
   },
   {
     path: '',
