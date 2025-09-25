@@ -3,7 +3,7 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "cart-fe": {
+    "project-work": {
       "projectType": "application",
       "schematics": {
         "@schematics/angular:component": {
@@ -23,7 +23,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:application",
           "options": {
-            "outputPath": "dist/cart-fe",
+            "outputPath": "dist/project-work",
             "index": "src/index.html",
             "browser": "src/main.ts",
             "polyfills": [
@@ -71,10 +71,10 @@
           "builder": "@angular-devkit/build-angular:dev-server",
           "configurations": {
             "production": {
-              "buildTarget": "cart-fe:build:production"
+              "buildTarget": "project-work:build:production"
             },
             "development": {
-              "buildTarget": "cart-fe:build:development"
+              "buildTarget": "project-work:build:development"
             }
           },
           "defaultConfiguration": "development",
