@@ -29,7 +29,7 @@ export class AuthService {
   }
 
   fetchUser() {
-    return this.http.get<ContoCorrente>('/api/users/me')
+    return this.http.get<ContoCorrente>('https://backend-ax2m.onrender.com/api/users/me')
       .pipe(
         catchError(_ => {
           return of(null);
@@ -40,7 +40,7 @@ export class AuthService {
 
    login(email: string, password: string) {
     
-    return this.http.post<any>('/api/login', {email, password})
+    return this.http.post<any>('https://backend-ax2m.onrender.com/api/login', {email, password})
       .pipe(
         tap(res => this.jwtSrv.setToken(res.token)),
         tap(res => this._currentUser$.next(res.user)),
@@ -54,7 +54,7 @@ export class AuthService {
   }
 
     register(nomeTitolare: string, cognomeTitolare: string, email: string, password: string) {
-      return this.http.post<any>('/api/register', { nomeTitolare, cognomeTitolare, email, password })
+      return this.http.post<any>('https://backend-ax2m.onrender.com/api/register', { nomeTitolare, cognomeTitolare, email, password })
         .pipe(
           tap(res => this.jwtSrv.setToken(res.token)),
           tap(res => this._currentUser$.next(res.user)),
@@ -63,7 +63,7 @@ export class AuthService {
   }
 
   changePassword(oldPassword: string, newPassword: string) {
-    return this.http.post<any>('/api/change-password', { oldPassword, newPassword });
+    return this.http.post<any>('https://backend-ax2m.onrender.com/api/change-password', { oldPassword, newPassword });
   }
 
 }
